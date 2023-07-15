@@ -3,6 +3,7 @@
 
 Разбиение на internal и pkg опущено.
 Т.н. Usecase переименован в композитный сервис.
+T.н. Domain (Knowledge domain, он же model) поименован как gnosis.
 
 ### go build .\entrypoints\server\
 
