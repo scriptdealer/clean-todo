@@ -1,2 +1,4 @@
 # Clean architecture with RESTful API
-Minimal clean architecture example, created for the GalileoSky job interview
+Минимальный clean architecture бэк, для интервью GalileoSky
+
+Разбиение на internal и pkg опущено.
