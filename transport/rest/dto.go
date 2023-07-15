@@ -2,16 +2,21 @@ package rest
 
 import "errors"
 
-type UpdateItemInput struct {
-	Title       *string `json:"title"`
-	Description *string `json:"description"`
-	Done        *bool   `json:"done"`
+type fetchResponse struct {
+	Success bool        `json:"success"`
+	Error   string      `json:"error,omitempty"`
+	Data    interface{} `json:"data,omitempty"`
 }
 
-func (i UpdateItemInput) Validate() error {
-	if i.Title == nil && i.Description == nil && i.Done == nil {
+type ItemPatchRequest struct {
+	Title       string `json:"title"`
+	Description string `json:"description"`
+	Done        bool   `json:"done"`
+}
+
+func (update *ItemPatchRequest) Validate() error {
+	if update.Title == "" && update.Description == "" {
 		return errors.New("update structure has no values")
 	}
-
 	return nil
 }
