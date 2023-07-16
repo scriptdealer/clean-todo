@@ -1,7 +1,6 @@
 package services
 
 import (
-	"net/http"
 	"os"
 
 	"github.com/scriptdealer/clean-todo/storage"
@@ -12,7 +11,6 @@ import (
 type MainContext struct {
 	// Config     *Configuration
 	Db           *storage.ToDoStorage
-	Server       *http.Server
 	Interruption chan os.Signal
 	ToDos        *todoService
 	// Users        *userService

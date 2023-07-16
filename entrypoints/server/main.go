@@ -21,15 +21,15 @@ func main() {
 	//Injections
 	db := storage.NewMemoryStorage()
 	services := services.NewComposer(db)
-	handlers := rest.InitHandlers(services)
-	services.Server = &http.Server{
+	gorillaMux := rest.InitHandlers(services)
+	server := &http.Server{
 		Addr:           "127.0.0.1:8080",
-		Handler:        handlers,
+		Handler:        gorillaMux,
 		ReadTimeout:    14 * time.Second,
 		WriteTimeout:   14 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
-	fmt.Printf("Info: Starting web/http server on %s...\n", services.Server.Addr)
+	fmt.Printf("Info: Starting web/http server on %s...\n", server.Addr)
 	// setup signal catching
 	signal.Notify(services.Interruption, os.Interrupt, syscall.SIGTERM, syscall.SIGINT)
 	go func() {
@@ -39,14 +39,14 @@ func main() {
 		defer cancel()
 
 		//shutdown the server
-		err := services.Server.Shutdown(ctx)
+		err := server.Shutdown(ctx)
 		if err == nil {
 			os.Exit(0)
 		} else {
 			fmt.Printf("Graceful shutdown error: %v\n", err)
-			services.Server.Close()
+			server.Close()
 		}
 	}()
-	servingError := services.Server.ListenAndServe()
+	servingError := server.ListenAndServe()
 	fmt.Println("Info:", servingError.Error())
 }
