@@ -48,6 +48,7 @@ func (tds *ToDoStorage) Create(item *gnosis.TodoItem) int {
 	tds.lock.Lock()
 	defer tds.lock.Unlock()
 	tds.currentIndex++
+	item.Id = tds.currentIndex
 	tds.db[tds.currentIndex] = *item
 	return tds.currentIndex
 }
